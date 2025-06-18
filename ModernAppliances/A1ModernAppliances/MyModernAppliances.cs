@@ -125,64 +125,76 @@ public override void Checkout()
         /// <param name="voltage">Vacuum voltage (or 0 for any voltage)</param>
         public override void DisplayVacuums()
         {
-            // Write "Possible options:"
+            Console.WriteLine("Possible options:");
 
-            // Write "0 - Any"
-            // Write "1 - Residential"
-            // Write "2 - Commercial"
+            Console.WriteLine("0 - Any");
+            Console.WriteLine("1 - Residential");
+            Console.WriteLine("2 - Commercial");
 
-            // Write "Enter grade:"
 
-            // Get user input as string and assign to variable
+            Console.WriteLine("Enter grade: ");
 
-            // Create grade variable to hold grade to find (Any, Residential, or Commercial)
+            string gradeInput = Console.ReadLine();
+            string grade;
 
-            // Test input is "0"
-                // Assign "Any" to grade
-            // Test input is "1"
-                // Assign "Residential" to grade
-            // Test input is "2"
-                // Assign "Commercial" to grade
-            // Otherwise (input is something else)
-                // Write "Invalid option."
+            switch (gradeInput)
+            {
+                case "0":
+                    grade = "Any";
+                    break;
+                case "1":
+                    grade = "Residential";
+                    break;
+                case "2":
+                    grade = "Commercial";
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    return;
+            }
 
-                // Return to calling (previous) method
-                // return;
+            Console.WriteLine("Possible options:");
+            Console.WriteLine("0 - Any");
+            Console.WriteLine("1 - 18 Volt");
+            Console.WriteLine("2 - 24 Volt");
 
-            // Write "Possible options:"
+            Console.WriteLine("Enter voltage:");
 
-            // Write "0 - Any"
-            // Write "1 - 18 Volt"
-            // Write "2 - 24 Volt"
+            string voltageInput = Console.ReadLine();
+            short voltage;
 
-            // Write "Enter voltage:"
+            switch (voltageInput)
+            {
+                case "0":
+                    voltage = 0;
+                    break;
+                case "1":
+                    voltage = 18;
+                    break;
+                case "2":
+                    voltage = 24;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option.");
+                    return;
+            }
 
-            // Get user input as string
-            // Create variable to hold voltage
+            List<Appliance> found = new List<Appliance>();
 
-            // Test input is "0"
-                // Assign 0 to voltage
-            // Test input is "1"
-                // Assign 18 to voltage
-            // Test input is "2"
-                // Assign 24 to voltage
-            // Otherwise
-                // Write "Invalid option."
-                // Return to calling (previous) method
-                // return;
+            foreach (Appliance appliance in Appliances)
+            {
+                if (appliance is Vacuum vacuum)
+                {
+                    bool gradeMatches = (grade == "Any" || vacuum.Grade.Equals(grade, StringComparison.OrdinalIgnoreCase));
+                    bool voltageMatches = (voltage == 0 || vacuum.BatteryVoltage == voltage);
 
-            // Create found variable to hold list of found appliances.
-
-            // Loop through Appliances
-                // Check if current appliance is vacuum
-                    // Down cast current Appliance to Vacuum object
-                    // Vacuum vacuum = (Vacuum)appliance;
-
-                    // Test grade is "Any" or grade is equal to current vacuum grade and voltage is 0 or voltage is equal to current vacuum voltage
-                        // Add current appliance in list to found list
-
-            // Display found appliances
-            // DisplayAppliancesFromList(found, 0);
+                    if (gradeMatches && voltageMatches)
+                    {
+                        found.Add(vacuum);
+                    }
+                }
+            }
+            DisplayAppliancesFromList(found, 0);
         }
 
         public override void DisplayMicrowaves()
