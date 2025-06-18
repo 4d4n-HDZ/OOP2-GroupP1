@@ -49,20 +49,34 @@ namespace ModernAppliances
         /// </summary>
         public override void Find()
         {
-            // Write "Enter brand to search for:"
+            Console.Write("Enter brand to search for: ");
+            string? brandInput = Console.ReadLine()?.Trim();
 
-            // Create string variable to hold entered brand
-            // Get user input as string and assign to variable.
+            if (string.IsNullOrEmpty(brandInput))
+            {
+                Console.WriteLine("Brand cannot be empty.");
+                return;
+            }
 
-            // Create list to hold found Appliance objects
+            List<Appliance> found = new List<Appliance>();
 
-            // Iterate through loaded appliances
-                // Test current appliance brand matches what user entered
-                    // Add current appliance in list to found list
+            foreach (Appliance appliance in Appliances)
+            {
+                if (appliance.Brand != null &&
+                appliance.Brand.Equals(brandInput, StringComparison.OrdinalIgnoreCase))
+                {
+                    found.Add(appliance);
+                }
+            }
 
-
-            // Display found appliances
-            // DisplayAppliancesFromList(found, 0);
+            if (found.Count == 0)
+            {
+                Console.WriteLine("No appliances found with that brand.");
+            }
+            else
+            {
+                DisplayAppliancesFromList(found, 0); 
+            }
         }
 
         /// <summary>
@@ -159,46 +173,51 @@ namespace ModernAppliances
             // DisplayAppliancesFromList(found, 0);
         }
 
-        /// <summary>
-        /// Displays microwaves
-        /// </summary>
         public override void DisplayMicrowaves()
         {
-            // Write "Possible options:"
+            Console.WriteLine("Possible options:");
+            Console.WriteLine("0 - Any");
+            Console.WriteLine("1 - Kitchen");
+            Console.WriteLine("2 - Work site");
+            Console.Write("Enter room type: ");
 
-            // Write "0 - Any"
-            // Write "1 - Kitchen"
-            // Write "2 - Work site"
+            string? input = Console.ReadLine()?.Trim();
+            char roomType;
 
-            // Write "Enter room type:"
+            if (input == "0")
+            {
+                roomType = 'A'; 
+            }
+            else if (input == "1")
+            {
+                roomType = Microwave.RoomTypeKitchen; 
+            }
+            else if (input == "2")
+            {
+                roomType = Microwave.RoomTypeWorkSite; 
+            }
+            else
+            {
+                Console.WriteLine("Invalid option.");
+                return;
+            }
 
-            // Get user input as string and assign to variable
+            var found = new List<Appliance>();
 
-            // Create character variable that holds room type
+            foreach (var appliance in Appliances)
+            {
+                if (appliance is Microwave microwave)
+                {
+                    if (roomType == 'A' || microwave.RoomType == roomType)
+                    {
+                        found.Add(microwave);
+                    }
+                }
+            }
 
-            // Test input is "0"
-                // Assign 'A' to room type variable
-            // Test input is "1"
-                // Assign 'K' to room type variable
-            // Test input is "2"
-                // Assign 'W' to room type variable
-            // Otherwise (input is something else)
-                // Write "Invalid option."
-                // Return to calling method
-                // return;
-
-            // Create variable that holds list of 'found' appliances
-
-            // Loop through Appliances
-                // Test current appliance is Microwave
-                    // Down cast Appliance to Microwave
-
-                    // Test room type equals 'A' or microwave room type
-                        // Add current appliance in list to found list
-
-            // Display found appliances
-            // DisplayAppliancesFromList(found, 0);
+            DisplayAppliancesFromList(found, 0);
         }
+        
 
         /// <summary>
         /// Displays dishwashers
