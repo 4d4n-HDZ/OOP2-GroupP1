@@ -250,48 +250,31 @@ namespace ModernAppliances
         /// Generates random list of appliances
         /// </summary>
         public override void RandomList()
-        {
-            // Write "Appliance Types"
+                {
+            Console.Write("Enter number of appliances: ");
+            string numInput = Console.ReadLine();
+            Console.WriteLine();
 
-            // Write "0 - Any"
-            // Write "1 – Refrigerators"
-            // Write "2 – Vacuums"
-            // Write "3 – Microwaves"
-            // Write "4 – Dishwashers"
+            if (!int.TryParse(numInput, out int count) || count < 1)
+            {
+                Console.WriteLine("Invalid number.\n");
+                return;
+            }
 
-            // Write "Enter type of appliance:"
+            if (count > Appliances.Count)
+                count = Appliances.Count;
 
-            // Get user input as string and assign to appliance type variable
+            var rnd = new Random();
+            var available = new List<Appliance>(Appliances);
 
-            // Write "Enter number of appliances: "
-
-            // Get user input as string and assign to variable
-
-            // Convert user input from string to int
-
-            // Create variable to hold list of found appliances
-
-            // Loop through appliances
-                // Test inputted appliance type is "0"
-                    // Add current appliance in list to found list
-                // Test inputted appliance type is "1"
-                    // Test current appliance type is Refrigerator
-                        // Add current appliance in list to found list
-                // Test inputted appliance type is "2"
-                    // Test current appliance type is Vacuum
-                        // Add current appliance in list to found list
-                // Test inputted appliance type is "3"
-                    // Test current appliance type is Microwave
-                        // Add current appliance in list to found list
-                // Test inputted appliance type is "4"
-                    // Test current appliance type is Dishwasher
-                        // Add current appliance in list to found list
-
-            // Randomize list of found appliances
-            // found.Sort(new RandomComparer());
-
-            // Display found appliances (up to max. number inputted)
-            // DisplayAppliancesFromList(found, num);
+            Console.WriteLine($"\nRandom {count} appliance(s):\n");
+            for (int i = 0; i < count; i++)
+            {
+                int idx = rnd.Next(available.Count);
+                Console.WriteLine(available[idx]);
+                Console.WriteLine();
+                available.RemoveAt(idx);
+            }
         }
     }
 }
