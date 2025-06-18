@@ -70,34 +70,27 @@ namespace ModernAppliances
         /// </summary>
         public override void DisplayRefrigerators()
         {
-            // Write "Possible options:"
+    Console.Write("Enter number of doors: 2 (double door), 3 (three doors) or 4 (four doors): ");
+    string input = Console.ReadLine();
+    Console.WriteLine();
 
-            // Write "0 - Any"
-            // Write "2 - Double doors"
-            // Write "3 - Three doors"
-            // Write "4 - Four doors"
+    if (!int.TryParse(input, out int doors))
+    {
+        Console.WriteLine("Invalid option.");
+        Console.WriteLine();
+        return;
+    }
 
-            // Write "Enter number of doors: "
+    var found = new List<Appliance>();
+    foreach (var a in Appliances)
+    {
+        if (a is Refrigerator r && (doors == 0 || r.Doors == doors))
+            found.Add(r);
+    }
 
-            // Create variable to hold entered number of doors
-
-            // Get user input as string and assign to variable
-
-            // Convert user input from string to int and store as number of doors variable.
-
-            // Create list to hold found Appliance objects
-
-            // Iterate/loop through Appliances
-                // Test that current appliance is a refrigerator
-                    // Down cast Appliance to Refrigerator
-                    // Refrigerator refrigerator = (Refrigerator) appliance;
-
-                    // Test user entered 0 or refrigerator doors equals what user entered.
-                        // Add current appliance in list to found list
-
-            // Display found appliances
-            // DisplayAppliancesFromList(found, 0);
-        }
+    Console.WriteLine("Matching Refrigerators:\n");
+    DisplayAppliancesFromList(found, 0);
+}
 
         /// <summary>
         /// Displays Vacuums
