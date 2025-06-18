@@ -11,38 +11,50 @@ namespace ModernAppliances
     /// <remarks>Date: </remarks>
     internal class MyModernAppliances : ModernAppliances
     {
-        /// <summary>
-        /// Option 1: Performs a checkout
-        /// </summary>
-        public override void Checkout()
+/// <summary>
+/// Option 1: Performs a checkout
+/// </summary>
+public override void Checkout()
+{
+    Console.Write("Enter the item number of an appliance: ");
+
+    string input = Console.ReadLine().Trim();
+
+    bool success = long.TryParse(input, out long itemNumber);
+
+    if (!success)
+    {
+        Console.WriteLine("Invalid item number format.");
+        return;
+    }
+
+    Appliance? foundAppliance = null;
+
+    foreach (Appliance appliance in Appliances)
+    {
+        if (appliance.ItemNumber == itemNumber)
         {
-            // Write "Enter the item number of an appliance: "
-
-            // Create long variable to hold item number
-
-            // Get user input as string and assign to variable.
-            // Convert user input from string to long and store as item number variable.
-
-            // Create 'foundAppliance' variable to hold appliance with item number
-            // Assign null to foundAppliance (foundAppliance may need to be set as nullable)
-
-            // Loop through Appliances
-                // Test appliance item number equals entered item number
-                    // Assign appliance in list to foundAppliance variable
-
-                    // Break out of loop (since we found what need to)
-
-            // Test appliance was not found (foundAppliance is null)
-                // Write "No appliances found with that item number."
-
-            // Otherwise (appliance was found)
-                // Test found appliance is available
-                    // Checkout found appliance
-
-                    // Write "Appliance has been checked out."
-                // Otherwise (appliance isn't available)
-                    // Write "The appliance is not available to be checked out."
+            foundAppliance = appliance;
+            break;
         }
+    }
+    if (foundAppliance == null)
+    {
+        Console.WriteLine("No appliances found with that item number.");
+    }
+    else
+    {
+        if (foundAppliance.Quantity > 0)
+        {
+            foundAppliance.Checkout();
+            Console.WriteLine($"Appliance \"{foundAppliance.ItemNumber}\" has been checked out.");
+        }
+        else
+        {
+            Console.WriteLine("The appliance is not available to be checked out.");
+        }
+    }
+}
 
         /// <summary>
         /// Option 2: Finds appliances
@@ -222,52 +234,60 @@ namespace ModernAppliances
         /// <summary>
         /// Displays dishwashers
         /// </summary>
-        public override void DisplayDishwashers()
+public override void DisplayDishwashers()
         {
-            // Write "Possible options:"
+            Console.WriteLine("Possible options:");
+            Console.WriteLine("0 - Any");
+            Console.WriteLine("1 - Quietest");
+            Console.WriteLine("2 - Quieter");
+            Console.WriteLine("3 - Quiet");
+            Console.WriteLine("4 - Moderate");
 
-            // Write "0 - Any"
-            // Write "1 - Quietest"
-            // Write "2 - Quieter"
-            // Write "3 - Quiet"
-            // Write "4 - Moderate"
+            Console.Write("Enter sound rating: ");
 
-            // Write "Enter sound rating:"
+            string input = Console.ReadLine().Trim();
 
-            // Get user input as string and assign to variable
+            string selectedRating;
 
-            // Create variable that holds sound rating
-
-            // Test input is "0"
-                // Assign "Any" to sound rating variable
-            // Test input is "1"
-                // Assign "Qt" to sound rating variable
-            // Test input is "2"
-                // Assign "Qr" to sound rating variable
-            // Test input is "3"
-                // Assign "Qu" to sound rating variable
-            // Test input is "4"
-                // Assign "M" to sound rating variable
-            // Otherwise (input is something else)
-                // Write "Invalid option."
-                // Return to calling method
-
-            // Create variable that holds list of found appliances
-
-            // Loop through Appliances
-                // Test if current appliance is dishwasher
-                    // Down cast current Appliance to Dishwasher
-
-                    // Test sound rating is "Any" or equals soundrating for current dishwasher
-                        // Add current appliance in list to found list
-
-            // Display found appliances (up to max. number inputted)
-            // DisplayAppliancesFromList(found, 0);
+            if (input == "0")
+            {
+                selectedRating = "Any";
+            }
+            else if (input == "1")
+            {
+                selectedRating = Dishwasher.SoundRatingQuietest;
+            }
+            else if (input == "2")
+            {
+                selectedRating = Dishwasher.SoundRatingQuieter;
+            }
+            else if (input == "3")
+            {
+                selectedRating = Dishwasher.SoundRatingQuiet;
+            }
+            else if (input == "4")
+            {
+                selectedRating = Dishwasher.SoundRatingModerate;
+            }
+            else
+            {
+                Console.WriteLine("Invalid option.");
+                return;
+            }
+            List<Appliance> found = new List<Appliance>();
+            foreach (Appliance appliance in Appliances)
+            {
+                if (appliance is Dishwasher dishwasher)
+                {
+                    if (selectedRating == "Any" || dishwasher.SoundRating == selectedRating)
+                    {
+                        found.Add(dishwasher);
+                    }
+                }
+            }
+            DisplayAppliancesFromList(found, 0);
         }
 
-        /// <summary>
-        /// Generates random list of appliances
-        /// </summary>
         public override void RandomList()
                 {
             Console.Write("Enter number of appliances: ");
